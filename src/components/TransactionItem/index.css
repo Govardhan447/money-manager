@@ -1,0 +1,26 @@
+.transaction-details {
+  display: flex;
+  flex-direction: row;
+  border-style: outset;
+  padding: 10px;
+  height: 70px;
+  align-items: center;
+}
+
+.history-container {
+  width: 55%;
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: centers;
+  padding: 20px;
+  border: 1px solid #334155;
+  border-radius: 15px;
+  margin-top: 40px;
+}
+.paragraph {
+  color: #334155;
+  font-size: 25px;
+  font-family: roboto;
+  margin-right: 80px;
+}
