@@ -23,31 +23,36 @@ const tarnsactionList = []
 
 class MoneyManager extends Component {
   state = {
-    transactionOptions: transactionTypeOptions,
     transationListDetails: tarnsactionList,
+    title: '',
+    amount: '',
+    type: 'INCOME',
   }
 
   onAddMoneyDetails = event => {
     event.preventDefault()
     const {title, amount, type} = this.state
+
+    console.log(type)
     const newMoneyDetails = {
       id: uuidv4(),
       title,
       amount,
       type,
     }
+    console.log(newMoneyDetails)
+
     this.setState(prevState => ({
       transationListDetails: [
         ...prevState.transationListDetails,
         newMoneyDetails,
       ],
-      title: '',
-      amount: '',
     }))
+
+    this.clearInputs()
   }
 
   onChangeAmount = event => {
-    console.log(event.target.value)
     this.setState({amount: event.target.value})
   }
 
@@ -59,11 +64,22 @@ class MoneyManager extends Component {
     this.setState({title: event.target.value})
   }
 
+  updatedMoneyList = id => {
+    const {transationListDetails} = this.state
+    const updatedList = transationListDetails.filter(
+      eachItem => eachItem.id !== id,
+    )
+
+    this.setState({transationListDetails: updatedList})
+  }
+
+  clearInputs() {
+    this.setState({title: '', amount: ''})
+  }
+
   render() {
-    const {transactionOptions, transationListDetails} = this.state
-    const {title, amount, type} = transationListDetails
-    console.log(amount)
-    console.log(type)
+    const {transationListDetails, title, amount} = this.state
+
     return (
       <div className="bg-container">
         <div className="name-container">
@@ -73,30 +89,46 @@ class MoneyManager extends Component {
           </p>
         </div>
 
-        <MoneyDetails amountMoney={amount} typeRupees={type} />
+        <MoneyDetails moneyDetailsList={transationListDetails} />
 
         <div className="add-money-with-history-container">
           <div className="add-transcation-container">
-            <h1 className="header">Add Transanction </h1>
+            <h1 className="header">Add Transaction </h1>
             <form id="myForm" onSubmit={this.onAddMoneyDetails}>
-              <label htmlFor="titleInput">TITLE</label>
+              <label className="label" htmlFor="titleInput">
+                TITLE
+              </label>
               <input
                 id="titleInput"
                 className="input"
                 type="text"
                 placeholder="TITLE"
+                onChange={this.onChangeTitle}
+                value={title}
               />
-              <label htmlFor="amountInput">AMOUNT</label>
+              <label className="label" htmlFor="amountInput">
+                AMOUNT
+              </label>
               <input
                 id="amountInput"
                 className="input"
                 type="text"
                 placeholder="AMOUNT"
+                onChange={this.onChangeAmount}
+                value={amount}
               />
-              <label htmlFor="typeInput">TYPE</label>
-              <select className="select-options" id="typeInput">
-                {transactionOptions.map(eachItem => (
-                  <option value={eachItem.optionId}>
+              <label className="label" htmlFor="typeInput">
+                TYPE
+              </label>
+
+              <select
+                id="typeInput"
+                className="select-options"
+                onChange={this.onChangeType}
+              >
+                {transactionTypeOptions.map(eachItem => (
+                  <option value={eachItem.optionId} key={eachItem.optionId}>
+                    {' '}
                     {eachItem.displayText}
                   </option>
                 ))}
@@ -108,16 +140,17 @@ class MoneyManager extends Component {
           </div>
           <div className="history-container">
             <h1>History</h1>
-            <div className="transaction-details">
+            <div className="transaction-details-headings">
               <p className="paragraph">Title</p>
               <p className="paragraph">Amount</p>
               <p className="paragraph">Type</p>
             </div>
-            <ul>
+            <ul className="transaction-details-container">
               {transationListDetails.map(eachItem => (
                 <TransactionItem
                   transactionListItem={eachItem}
                   key={eachItem.id}
+                  updatedMoneyList={this.updatedMoneyList}
                 />
               ))}
             </ul>
