@@ -1,7 +1,24 @@
 import './index.css'
 
-const MoneyDetails = props => {
-  const {amountMoney, typeRupess} = props
+const MoneyDetails = prop => {
+  const {moneyDetailsList} = prop
+  console.log(moneyDetailsList)
+  let income = 0
+  let expenses = 0
+  let totalBalence = 0
+
+  if (moneyDetailsList.length === 0) {
+    income = 0
+    expenses = 0
+  } else {
+    moneyDetailsList.map(eachItem =>
+      eachItem.type === 'INCOME'
+        ? (income += parseInt(eachItem.amount))
+        : (expenses += parseInt(eachItem.amount)),
+    )
+  }
+  totalBalence = income - expenses
+
   return (
     <div className="Money-details-container">
       <div className="Money-balence">
@@ -9,12 +26,14 @@ const MoneyDetails = props => {
           <img
             className="image"
             src="https://assets.ccbp.in/frontend/react-js/money-manager/balance-image.png"
-            alt="balence"
+            alt="balance"
           />
         </div>
         <div>
-          <p className="your-balance">Your Balance</p>
-          <p className="amount">Rs.{amountMoney}</p>
+          <p className="your-balance" data-testid="balanceAmount">
+            Your Balance
+          </p>
+          <p className="amount">Rs {totalBalence}</p>
         </div>
       </div>
 
@@ -27,8 +46,10 @@ const MoneyDetails = props => {
           />
         </div>
         <div>
-          <p className="your-income">Your Balance</p>
-          <p className="income">Rs.{amountMoney}</p>
+          <p className="your-income" data-testid="incomeAmount">
+            Your Income
+          </p>
+          <p className="income">Rs {income}</p>
         </div>
       </div>
 
@@ -41,8 +62,10 @@ const MoneyDetails = props => {
           />
         </div>
         <div>
-          <p className="your-expenses">Your Expenses</p>
-          <p className="expenses">Rs.{amountMoney}</p>
+          <p className="your-expenses" data-testid="expensesAmount">
+            Your Expenses
+          </p>
+          <p className="expenses">Rs {expenses}</p>
         </div>
       </div>
     </div>
