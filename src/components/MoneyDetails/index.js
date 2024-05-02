@@ -2,7 +2,7 @@ import './index.css'
 
 const MoneyDetails = prop => {
   const {moneyDetailsList} = prop
-  console.log(moneyDetailsList)
+
   let income = 0
   let expenses = 0
   let totalBalence = 0
@@ -11,12 +11,15 @@ const MoneyDetails = prop => {
     income = 0
     expenses = 0
   } else {
-    moneyDetailsList.map(eachItem =>
-      eachItem.type === 'INCOME'
-        ? (income += parseInt(eachItem.amount))
-        : (expenses += parseInt(eachItem.amount)),
-    )
+    moneyDetailsList.map(item => {
+      if (item.type === 'INCOME') {
+        income += parseInt(item.amount)
+      } else {
+        expenses += parseInt(item.amount)
+      }
+    })
   }
+
   totalBalence = income - expenses
 
   return (
@@ -30,10 +33,10 @@ const MoneyDetails = prop => {
           />
         </div>
         <div>
-          <p className="your-balance" data-testid="balanceAmount">
-            Your Balance
+          <p className="your-balance">Your Balance</p>
+          <p className="amount" data-testid="balanceAmount">
+            Rs {totalBalence}
           </p>
-          <p className="amount">Rs {totalBalence}</p>
         </div>
       </div>
 
@@ -46,10 +49,10 @@ const MoneyDetails = prop => {
           />
         </div>
         <div>
-          <p className="your-income" data-testid="incomeAmount">
-            Your Income
+          <p className="your-income">Your Income</p>
+          <p className="income" data-testid="incomeAmount">
+            Rs {income}
           </p>
-          <p className="income">Rs {income}</p>
         </div>
       </div>
 
@@ -62,10 +65,10 @@ const MoneyDetails = prop => {
           />
         </div>
         <div>
-          <p className="your-expenses" data-testid="expensesAmount">
-            Your Expenses
+          <p className="your-expenses">Your Expenses</p>
+          <p className="expenses" data-testid="expensesAmount">
+            Rs {expenses}
           </p>
-          <p className="expenses">Rs {expenses}</p>
         </div>
       </div>
     </div>
