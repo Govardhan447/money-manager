@@ -33,21 +33,20 @@ class MoneyManager extends Component {
     event.preventDefault()
     const {title, amount, type} = this.state
 
-    console.log(type)
-    const newMoneyDetails = {
-      id: uuidv4(),
-      title,
-      amount,
-      type,
+    if (title && amount !== '') {
+      const newMoneyDetails = {
+        id: uuidv4(),
+        title,
+        amount,
+        type,
+      }
+      this.setState(prevState => ({
+        transationListDetails: [
+          ...prevState.transationListDetails,
+          newMoneyDetails,
+        ],
+      }))
     }
-    console.log(newMoneyDetails)
-
-    this.setState(prevState => ({
-      transationListDetails: [
-        ...prevState.transationListDetails,
-        newMoneyDetails,
-      ],
-    }))
 
     this.clearInputs()
   }
