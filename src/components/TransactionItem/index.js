@@ -3,6 +3,8 @@ import './index.css'
 const TransactionItem = props => {
   const {transactionListItem, updatedMoneyList} = props
   const {id, title, amount, type} = transactionListItem
+
+  console.log(transactionListItem)
   const onclickDelete = () => {
     updatedMoneyList(id)
   }
